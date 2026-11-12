@@ -1,0 +1,603 @@
+% Opciones para paquetes cargados en otros lugares
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+% Use the supplied IEEE class when installed; the article fallback makes the
+% draft buildable with the basic TeX installation in this workspace.
+\IfFileExists{IEEEtran.cls}{\documentclass[journal]{IEEEtran}}{\documentclass[twocolumn]{article}}
+\newcommand{\USFQkeywords}[1]{%
+  \ifdefined\IEEEkeywords\begin{IEEEkeywords}#1\end{IEEEkeywords}%
+  \else\paragraph{Keywords} #1\fi}
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb, graphicx,tabularx,booktabs}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+
+\usepackage{ragged2e} % Para el entorno justify
+
+
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{3} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyhead[R]{\scriptsize\thepage}
+
+\newenvironment{customfontsize}{
+    \fontsize{12}{14}\selectfont
+}{}
+
+\author{}
+\date{}
+
+\begin{document}
+\onecolumn
+\thispagestyle{empty} % Eliminar numeración en la primera página
+
+\begin{center}
+\textbf{\fontsize{14}{16}\selectfont UNIVERSIDAD SAN FRANCISCO DE QUITO USFQ}\\
+\vspace{25pt}
+\textbf{\fontsize{14}{16}\selectfont Colegio de Posgrados}\\
+\vspace{50pt}
+\textbf{\fontsize{14}{16}\selectfont What Counts as a World Model? Definition, Evidence, and a Target-Based Taxonomy}\\
+\vspace{40pt}
+\textbf{\fontsize{14}{16}\selectfont \textcolor{red}{Proyecto de Titulación}}\\
+\vspace{50pt}
+\textbf{\fontsize{18}{20}\selectfont \textcolor{red}{Nombre del autor}}\\
+\vspace{50pt}
+\textbf{\fontsize{16}{18}\selectfont \textcolor{red}{Felipe Grijalva, Ph.D.}}\\
+\vspace{15pt}
+\textbf{\fontsize{16}{18}\selectfont Director de Trabajo de Titulación}\\
+\vspace{50pt}
+\fontsize{12}{14}\selectfont Trabajo de titulación de posgrado presentado como requisito para la obtención del título de \textcolor{red}{Magíster en Inteligencia Artificial}
+\vspace{20pt}
+\end{center}
+
+\begin{center}
+\fontsize{12}{14}\selectfont Quito, \textcolor{red}{fecha de entrega}
+\end{center}
+
+\newpage
+
+\begin{center}
+\textbf{\fontsize{18}{16}\selectfont UNIVERSIDAD SAN FRANCISCO DE QUITO USFQ}\\
+\vspace{10pt}
+\textbf{\fontsize{18}{16}\selectfont COLEGIO DE POSGRADOS}\\
+\vspace{20pt}
+\textbf{\fontsize{14}{16}\selectfont HOJA DE APROBACIÓN DE TRABAJO DE TITULACIÓN}\\
+\vspace{10pt}
+\textbf{\fontsize{14}{16}\selectfont What Counts as a World Model? Definition, Evidence, and a Target-Based Taxonomy}\\
+\vspace{10pt}
+\textbf{\fontsize{14}{16}\selectfont \textcolor{red}{Nombre del estudiante}}
+\end{center}
+\vspace{20pt}
+
+\begin{customfontsize}
+Nombre del Director del Programa:\hspace{3cm}\textcolor{red} {Felipe Grijalva}\\
+Título académico:\hspace{6.2cm}\textcolor{red}{Ph.D. en Ingeniería Eléctrica}\\
+Director del programa de:\hspace{4.7cm}\textcolor{red}{ Inteligencia Artificial}
+\vspace{30pt}
+\\Nombre del Decano del colegio Académico:\hspace{1.6cm}\textcolor{red}{Eduardo Alba}\\ 
+Título académico:\hspace{6.2cm}\textcolor{red}{Doctor en Ciencias Matemáticas}\\
+Decano del Colegio:\hspace{5.8cm}\textcolor{red}{Ciencias e Ingenierías}
+\vspace{30pt}
+\\Nombre del Decano del Colegio de Posgrados:\hspace{1cm}\textcolor{red}{Dario Niebieskikwiat}\\
+Título académico:\hspace{6.1cm}\textcolor{red}{Doctor en Física}
+
+\end{customfontsize}
+
+\begin{center}
+\vspace{180pt}
+\textbf{\fontsize{14}{16}\selectfont Quito, \textcolor{red}{mes y año de entrega}}
+\end{center}
+
+\newpage
+\begin{center}
+\textbf{\fontsize{14}{16}\selectfont © DERECHOS DE AUTOR}\\
+\vspace{10pt}
+\end{center}
+%\begin{justify}
+
+
+\fontsize{12}{14}\selectfont
+{
+\setlength{\parindent}{3em}
+\hspace{1pt}
+
+Por medio del presente documento certifico que he leído todas las Políticas y Manuales de la Universidad San Francisco de Quito USFQ, incluyendo la Política de Propiedad Intelectual USFQ, y estoy de acuerdo con su contenido, por lo que los derechos de propiedad intelectual del presente trabajo quedan sujetos a lo dispuesto en esas Políticas.
+
+Asimismo, autorizo a la USFQ para que realice la digitalización y publicación de este trabajo en el repositorio virtual, de conformidad a lo dispuesto en la Ley Orgánica de Educación Superior del Ecuador.
+}
+%\end{justify}
+
+\begin{customfontsize}
+\vspace{30pt}
+
+Nombre del estudiante:\hspace{4cm}\textcolor{red}  {\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_}\\
+\vspace{30pt}
+
+Código de estudiante:\hspace{4.2cm}\textcolor{red}{\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_}\\
+\vspace{30pt}
+
+C.I.:\hspace{7.3cm}\textcolor{red}{\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_}\\
+\vspace{30pt}
+
+Lugar y fecha:\hspace{5.4cm}\textcolor{red}{Ciudad, día} de \textcolor{red}{mes} de \textcolor{red}{año.}
+
+\end{customfontsize}
+
+
+\newpage
+
+\begin{center}
+\textbf{\fontsize{14}{16}\selectfont ACLARACIÓN PARA PUBLICACIÓN}\\
+\end{center}
+\vspace{10pt}
+
+%\begin{justify}
+\fontsize{12}{14}\selectfont \textbf{Nota:} El presente trabajo, en su totalidad o cualquiera de sus partes, no debe ser considerado como una publicación, incluso a pesar de estar disponible sin restricciones a través de un repositorio institucional. Esta declaración se alinea con las prácticas y recomendaciones presentadas por el Committee on Publication Ethics COPE descritas por Barbour et al. (2017) Discussion document on best practice for issues around theses publishing, disponible en \url{http://bit.ly/COPETheses}.
+%\end{justify}   
+\vspace{10pt}
+\begin{center}
+\textbf{\fontsize{14}{16}\selectfont UNPUBLISHED DOCUMENT}\\
+\end{center}
+\vspace{10pt}
+%\begin{justify}
+\fontsize{12}{14}\selectfont \textbf{Note:} The following graduation project is available through Universidad San Francisco de Quito USFQ institutional repository. Nonetheless, this project -- in whole or in part -- should not be considered a publication. This statement follows the recommendations presented by the Committee on Publication Ethics COPE described by Barbour et al. (2017) Discussion document on best practice for issues around theses publishing available on \url{http://bit.ly/COPETheses}.
+%\end{justify}
+
+\newpage
+
+\begin{center}
+\textbf{\fontsize{14}{16}\selectfont DEDICATORIA}\\
+\end{center}
+\vspace{10pt}
+%\begin{justify}
+
+{
+\setlength{\parindent}{3em}
+\hspace{1pt}
+\fontsize{12}{14}\selectfont 
+
+\textcolor{red}{En texto normal. Debe ser redactado de manera sobria y concisa (Opcional).}
+
+}
+%\end{justify}
+\newpage
+
+
+\begin{center}
+\textbf{\fontsize{14}{16}\selectfont AGRADECIMIENTOS}\\
+\end{center}
+\vspace{10pt}
+\fontsize{12}{14}\selectfont 
+
+{
+\setlength{\parindent}{3em}
+\hspace{1pt}
+
+\textcolor{red}{En texto normal, debe ser redactado de manera sobria y concisa. Esta sección es opcional, pero es en la que deben ir mencionadas todas las personas e instituciones que contribuyeron al desarrollo del trabajo de titulación. De igual forma, aquí debe reconocerse de manera clara y explícita a las personas naturales o jurídicas que trabajaron con el autor en la generación, colección o análisis de los datos y que deben ser reconocidos como coautores.}
+
+
+}
+\newpage
+
+\begin{center}
+\textbf{\fontsize{14}{16}\selectfont RESUMEN}\\
+\vspace{10pt}
+\end{center}
+\fontsize{12}{14}\selectfont 
+{
+\setlength{\parindent}{3em}
+\hspace{1pt}
+Un número creciente de sistemas recibe el nombre de modelos del mundo, desde dinámicas latentes para la planificación hasta generadores de video y representaciones de escenas. Sus distintas interfaces de predicción dificultan aplicar la denominación de forma coherente. Esta revisión propone un criterio operativo: un modelo del mundo aprende una relación reutilizable para predecir cómo cambia un entorno a partir del contexto disponible y, cuando así se afirma, de acciones o intervenciones. Distinguimos esta condición de la evidencia de que la relación sea precisa, generalice o facilite el control. Tras definir la interfaz entre entorno y agente, establecemos pruebas para estas afirmaciones y organizamos los métodos principalmente por el objetivo de predicción, con la modalidad y la aplicación como ejes separados. La inferencia de escenas estáticas se analiza como un caso adyacente, sin considerarla una demostración de dinámica temporal.\\
+}
+\vspace{10pt}
+\begin{center}  
+\textbf{\fontsize{12}{14}\selectfont Palabras clave:} modelos del mundo; dinámica del entorno; predicción temporal; taxonomía; evaluación
+\end{center}
+
+\newpage
+
+\begin{center}
+\textbf{\fontsize{14}{16}\selectfont ABSTRACT}\\
+\end{center}
+\vspace{10pt}
+\fontsize{12}{14}\selectfont 
+{
+\setlength{\parindent}{3em}
+\hspace{1pt}
+A growing range of systems are called world models, from latent dynamics used for planning to video generators and scene representations. Their different prediction interfaces make the label difficult to apply consistently. This survey proposes an operational boundary: a world model learns a reusable relation for predicting how an environment changes, from available context and, when claimed, actions or interventions. We distinguish that membership claim from evidence that the relation is accurate, generalizes, or supports control. After defining the environment and agent interface, we specify tests for those claims and organize methods primarily by prediction target, with modality and application as separate axes. Static scene inference is discussed as an adjacent case rather than treated as demonstrated dynamics.\\
+
+}
+\vspace{10pt}
+\begin{center}
+\textbf{\fontsize{12}{14}\selectfont Key words:} world models; environment dynamics; temporal prediction; taxonomy; evaluation
+\end{center}
+
+
+\newpage
+
+\begin{center}
+\textbf{\fontsize{14}{16}\selectfont TABLA DE CONTENIDO}
+\end{center}
+
+\renewcommand{\contentsname}{}
+\begin{customfontsize}
+    \tableofcontents
+\end{customfontsize}
+
+
+\newpage
+
+\begin{center}
+    \textbf{\fontsize{14}{16}\selectfont ÍNDICE DE TABLAS}
+\end{center}
+
+%\fontsize{12}{14}\selectfont TABLA \#. TÍTULO DE LA TABLA (EL TÍTULO DE LA TABLA DEBE SER AUTODESCRIPTIVO Y NO DEBE DEPENDER DEL TEXTO)
+
+\renewcommand{\listtablename}{} % Remove "List of Tables" title
+
+\begin{customfontsize}
+    \listoftables
+\end{customfontsize}
+
+
+\newpage
+\begin{center}
+    \textbf{\fontsize{14}{16}\selectfont ÍNDICE DE FIGURAS}
+\end{center}
+
+%\fontsize{12}{14}\selectfont FIGURA \#. TÍTULO DE LA FIGURA (EL TÍTULO DEBE SER AUTODESCRIPTIVO Y NO DEBE DEPENDER DEL TEXTO)
+
+\renewcommand{\listfigurename}{} % Remove "List of Tables" title
+
+
+\begin{customfontsize}
+    \listoffigures
+\end{customfontsize}
+
+\newpage
+\setlength{\dblfloatsep}{6pt}
+\setlength{\dbltextfloatsep}{8pt}
+\twocolumn
+\normalsize
+
+\title{What Counts as a World Model? Definition, Evidence, and a Target-Based Taxonomy}
+\author{\textcolor{red}{Nombre del autor}}
+\date{}
+\maketitle
+\begin{abstract}
+A growing range of systems are called world models, from latent dynamics used for planning to video generators and scene representations. Their different prediction interfaces make the label difficult to apply consistently. This survey proposes an operational boundary: a world model learns a reusable relation for predicting how an environment changes, from available context and, when claimed, actions or interventions. We distinguish that membership claim from evidence that the relation is accurate, generalizes, or supports control. After defining the environment and agent interface, we specify tests for those claims and organize methods primarily by prediction target, with modality and application as separate axes. Static scene inference is discussed as an adjacent case rather than treated as demonstrated dynamics.
+\end{abstract}
+\USFQkeywords{world models, environment dynamics, temporal prediction, taxonomy, evaluation}
+
+\section{Introduction}\label{introduction}
+
+The term \emph{world model} now covers systems that predict future pixels, latent features, physical variables, rewards, or textual changes. Some can be queried under candidate actions; others learn from passive observations. Ha and Schmidhuber's World Models~\cite{ref1} combines compressed visual representation with temporal dynamics, whereas MuZero~\cite{ref2} learns dynamics for planning without reconstructing the next observation. More recent action-conditioned video and feature models extend the range of outputs and applications. These systems share an interest in predicting environmental consequences, but the phrase \emph{world model} alone does not say which consequences they can predict or how well.
+
+The literature is active, and existing surveys already organize parts of it by predicted representation, embodiment, and application (see \texttt{survey-overlap.md}). We argue that the field still needs a consistent way to connect the name \emph{world model} to a predictive interface and the evidence for it across domains. Our contribution is therefore a \textbf{proposed operational definition and evidence framework}, followed by a cross-domain synthesis, rather than a claim that target-based classification is new. We ask three questions of each system: \textbf{What environmental relation is modeled? What evidence shows that its predictions track the environment? Which modality and application delimit that evidence?} This framing separates an author's name for a system from the capabilities its experiments establish.
+
+We first describe an environment relative to an agent and distinguish observed state from hidden state. We then define the predictive interface that counts as a world model for this survey and identify adjacent static or purely reactive systems. Next, we specify how to evaluate the claimed relation at the appropriate horizon and under relevant changes. Finally, we classify prediction targets and map them to input and output modalities and current uses, including robotics, games, driving, web interaction, and generation. The examples in this draft are representative; the corpus and selection protocol for a systematic survey remain to be specified.
+
+\section{Environment and agent boundary}\label{environment-and-agent-boundary}
+
+An \textbf{environment} is what lies outside the agent's chosen boundary and can produce observations; when the task includes interaction, it can also change and produce outcomes in response to actions. It may be physical, simulated, or digital. What counts as environment depends on the interface: for a robot, the room and manipulated objects may be outside the boundary; for a game agent, the game engine is the environment. The agent may observe a sufficient state, only a partial view, or a history from which the state must be inferred.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{images/environment-step-1-world.png}
+\caption{The environment is the world being interacted with. The room is one example; a game or website can also be an environment.}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{images/environment-step-2-components.png}
+\caption{A snapshot of the environment has state $s_t$. The illustrated ball, lamp, and door each have a current condition $s_{t,j}$.}
+\end{figure}
+
+Here \(j\) names an illustrated part: \(s_{t,\mathrm{ball}}\) records the ball's current condition, and likewise for the lamp and door. These are selected components of the full state \(s_t\).
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{images/environment-step-2-transitions.png}
+\caption{The matching $T_j$ labels name how each part can change. The rules may depend on the rest of the environment and on an action.}
+\end{figure}
+
+Let \(T(s_{t+1}\mid s_t,a_t)\) denote the environment's transition rule: how its state may change after action \(a_t\). For passive tasks, omit the action. In the illustration, \(T_j(s_{t+1,j}\mid s_t,a_t)\) describes the change of part \(j\) given the full current state and action. The parts may influence one another; their updates need not be independent. These are descriptions of the environment, not learned world-model predictions or a requirement to represent objects separately.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{images/environment-step-3-observation.png}
+\caption{The room has state $s_t$; the camera produces observation $o_t$ through the observation rule $\Omega$. This camera reveals only part of the environment; another interface may reveal all state information needed for prediction.}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{images/environment-step-4-agent.png}
+\caption{The agent receives observation $o_t$ and can choose action $a_t$. The robot represents a decision-making agent, which may also be software. Passive tasks can omit the action.}
+\end{figure}
+
+Let \(\Omega(o_t\mid s_t)\) denote how an observation arises from the current environment state. The agent may receive a nearly complete description or only a partial view. When one observation is insufficient, it can use the history \(h_t=(o_{\le t},a_{<t})\) of observations and past actions; include observed rewards if they reveal additional state information. Neither seeing the state nor observing a long history means the agent knows the transition rule \(T\). A learned world model attempts to predict relevant consequences from the information available through this interface.
+
+\section{An operational definition and its boundary}\label{an-operational-definition-and-its-boundary}
+
+We use \textbf{environment modeling} for the broad task of learning relations among variables generated by an environment. Within that scope, we call a learned system a \textbf{world model} when it exposes a predictive relation from an available state or observation history to an \emph{outcome at a later time}, with the conditioning variables needed for its stated task. The outcome may be an observation, measured state, geometry, learned representation, or decision-relevant signal. The relation may be deterministic or probabilistic, one step or multi-step, decoded or latent. An action interface is necessary for a claim about action consequences, but not for passive forecasting. This is a survey convention for comparing systems, not a universal definition attributed to the cited authors.
+
+Formally, let \(h_t\) be the available interaction history and \(y_{t+k}^{(y)}\) the target outcome at horizon \(k>0\). A schematic world-model query is
+
+\[
+\hat y_{t+k}^{(y)}\sim p_\theta\!\left(\cdot\mid h_t,a_{t:t+k-1}\right),
+\]
+
+where \(p_\theta\) is a learned conditional distribution and \(a_{t:t+k-1}\) is the action sequence from time \(t\) through \(t+k-1\). In a passive setting, omit the action sequence. The symbol \(y\) is a placeholder for the declared prediction target; a deterministic predictor can be written \(\hat y_{t+k}^{(y)}=g_\phi(h_t,a_{t:t+k-1})\). Neither expression requires access to the true state, a pixel decoder, or a reward. It also does not certify that predictions are accurate under unexecuted actions.
+
+\subsection{Included dynamics, with different kinds of fidelity}\label{included-dynamics-with-different-kinds-of-fidelity}
+
+A direct state model might approximate \(p_\theta(s_{t+1},r_{t+1}\mid s_t,a_t)\). A model of partial observations may instead encode history as \(z_t=f_\theta(h_t)\) and predict a future observation, latent, or reward from \(z_t\) and \(a_t\). The representation \(z_t\) need not reconstruct \(o_t\) or equal \(s_t\). For example, MuZero~\cite{ref2} learns iterated latent dynamics to predict reward, value, and policy quantities relevant to search, while DreamerV3~\cite{ref3} imagines future scenarios with a learned environment model. These are world models under the proposed definition, although their fidelity is assessed against different targets. A future-feature predictor such as V-JEPA 2-AC~\cite{ref4} also enters the temporal category; the JEPA architecture itself does not determine whether a task is temporal.
+
+\subsection{Adjacent systems and exclusions}\label{adjacent-systems-and-exclusions}
+
+\textbf{Structural inference} predicts unavailable content at a fixed time: a masked region, an occluded surface, or a novel view. It can be useful to build a world model, but its objective alone does not demonstrate change over time. In I-JEPA~\cite{ref5}, for example, \(z_t^{(c)}\) denotes context features, \(z_t^{(y)}\) target-region features, and \(\ell_t\) target locations within the same image. Its schematic prediction is
+
+\[
+\hat z_t^{(y)}=g_\phi(z_t^{(c)},\ell_t)\approx z_t^{(y)}.
+\]
+
+The shared time index is the boundary: this relation does not by itself predict \(t+1\). We therefore include same-time scene and feature methods as \textbf{adjacent structural models} in the taxonomy, and do not count them as established temporal world models unless they add a temporal predictive interface. Conversely, a reactive policy that maps the current observation directly to an action, a classifier of present observations, or a language model shown only to predict text tokens does not meet our boundary merely because it may contain useful knowledge. A policy can \emph{use} a world model, and token prediction can \emph{implement} one, when the system has an identifiable environmental outcome interface. This boundary concerns the demonstrated function, not the backbone or the name used in a paper.
+
+\section{What evidence supports a world-model claim?}\label{what-evidence-supports-a-world-model-claim}
+
+The first question is \textbf{membership}: does the system learn and expose a temporally indexed prediction of an environmental outcome? The second is \textbf{quality}: how closely does that prediction track the environment within the claimed scope? To substantiate a world-model claim empirically, we require at least a declared future target and a comparison between predictions and held-out environmental outcomes at that target. Without such a comparison, the system is a candidate world model with an unverified predictive claim. A model may meet the definition and still be inaccurate. Conversely, success on a downstream task alone does not identify which environmental relation was learned.
+
+We propose reporting five complementary forms of evidence. The applicable tests depend on the claimed interface; no single scalar score certifies a general world model.
+
+\begin{table*}[!t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.0}
+\caption{Evidence needed to evaluate a world-model claim}\label{tab:evidence}
+\begin{tabularx}{\textwidth}{@{}p{0.19\textwidth}p{0.22\textwidth}X@{}}
+\toprule
+\begin{minipage}[b]{\linewidth}\raggedright
+Claim to test
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Minimum evidence to report
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+What it does not establish alone
+\end{minipage} \\
+\midrule
+\textbf{Target fidelity} & Compare predicted and observed outcomes on held-out transitions, using a metric appropriate to the declared target and a simple baseline. & One-step fit does not establish useful rollouts or physical understanding. \\
+\textbf{Temporal consistency} & Evaluate multiple horizons or unrolled predictions, including compounding error and stable constraints where relevant. & A plausible long video may still miss task-critical state changes. \\
+\textbf{Action or intervention sensitivity} & For a controllable model, compare outcomes of executed alternative actions or controlled interventions from comparable contexts; report action coverage. & Conditioning on action tokens alone does not establish counterfactual accuracy. \\
+\textbf{Generalization and uncertainty} & Test held-out configurations, objects, rules, or domains within a stated scope; report uncertainty or failure rates where the interface permits. & Transfer outside the test distribution remains unverified. \\
+\textbf{Decision utility} & When planning or control is claimed, compare decisions made with and without the learned model under the same protocol. & Better task reward does not prove every predicted variable is correct. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+Controlled tests should change one relevant factor while holding others as steady as possible, then compare the model response with the observed outcome. Complementary controls vary irrelevant factors to test whether the purported relation survives those changes. WorldBench~\cite{ref6} illustrates concept-specific evaluation for physical video models; its results also caution against treating visual plausibility as sufficient evidence of physical consistency. For text or web environments, interventions and outcomes may be page actions and textual state changes rather than physical forces. Report the predicted target, test conditions, horizon, and downstream performance separately. These tests support claims within the sampled environments; they do not establish a complete causal account of reality.
+
+\section{Taxonomy by prediction target, modality, and application}\label{taxonomy-by-prediction-target-modality-and-application}
+
+The categories overlap: a system with several predicted quantities can occupy several rows. \textbf{Prediction target is the primary axis}; input/output modality and application are additional axes. Horizon, action conditioning, architecture, and use also cut across target classes. Same-time structural rows are retained to make the boundary visible, not to reclassify them as temporal world models. The equations are survey sketches of modeled quantities, not the cited papers' exact objectives; diffusion and flow methods may train on noise or velocity while generating a future observation.
+
+A model-level account of the challenge each method addresses, its approach, and remaining limits is in \texttt{model-comparison.md}.
+
+\begin{table*}[!t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.0}
+\caption{Prediction-target taxonomy (part 1)}\label{tab:targets-1}
+\begin{tabularx}{\textwidth}{@{}p{0.19\textwidth}p{0.22\textwidth}X@{}}
+\toprule
+\begin{minipage}[b]{\linewidth}\raggedright
+Target
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Approximation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Representative models and distinguishing idea
+\end{minipage} \\
+\midrule
+\textbf{Structured state} & \(p_\theta(s_{t+1}\mid s_t,a_t)\) & PETS~\cite{ref7} uses an uncertainty-aware dynamics ensemble over supplied state variables. Chreode~\cite{ref8} predicts one-step cell-state changes under biological interventions. \\
+\textbf{Observations or visual tokens} & \(p_\theta(o_{t+1:t+H}\mid h_t,a_{t:t+H-1})\), with actions omitted for passive prediction & IRIS~\cite{ref9} autoregressively predicts compressed visual tokens. Genie~\cite{ref10} infers latent actions from unlabeled video to control generated worlds. DIAMOND~\cite{ref11} trains an agent inside a diffusion game model. GameNGen~\cite{ref12} generates action-conditioned Doom frames. GAIA-1~\cite{ref13} predicts driving-video tokens from video, text, and actions. Cosmos-Predict2.5~\cite{ref14} uses flow-based generation for text-, image-, and video-conditioned simulation. \\
+\textbf{Reconstructive latent state} & \(p_\theta(z_{t+1}\mid z_t,a_t)\) and \(p_\theta(o_t\mid z_t)\) & DreamerV3~\cite{ref3} combines imagined latent transitions with observation, reward, and continuation prediction. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\begin{table*}[!t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.0}
+\caption{Prediction-target taxonomy (part 2)}\label{tab:targets-2}
+\begin{tabularx}{\textwidth}{@{}p{0.19\textwidth}p{0.22\textwidth}X@{}}
+\toprule
+\begin{minipage}[b]{\linewidth}\raggedright
+Target
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Approximation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Representative models and distinguishing idea
+\end{minipage} \\
+\midrule
+\textbf{Learned target features} & \(\hat z_{t+k}^{(y)}\approx z_{t+k}^{(y)}\), with \(k=0\) or \(k>0\) & I-JEPA~\cite{ref5} predicts masked features within one image (\(k=0\)), making it a structural representation-learning boundary case rather than a temporal dynamics model. DINO-world~\cite{ref15} predicts future frozen DINOv2 patch features from video, then adds action conditioning for planning. V-JEPA 2-AC~\cite{ref4} predicts future video features conditioned on robot actions. LeWorldModel~\cite{ref16} learns next-feature prediction end to end without an EMA teacher; Fast-LeWM~\cite{ref17} extends it to parallel action-prefix horizons. \\
+\textbf{Decision-relevant signals} & \(\hat r_{t+1}\), \(\hat v_{t+k}\), or \(\hat\pi_{t+k}\) along learned transitions & MuZero~\cite{ref18} trains a latent transition through reward, value, and policy targets rather than observation reconstruction. TD-MPC2~\cite{ref19} also matches next latents while learning reward and value. \\
+\textbf{Explicit 3D geometry} & \(\hat g_{t+1}=F_\theta(g_t,a_t)\) & 3D Point World Models~\cite{ref20} completes occluded point clouds before predicting action-conditioned 3D dynamics. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\begin{table*}[!t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.0}
+\caption{Prediction-target taxonomy (part 3)}\label{tab:targets-3}
+\begin{tabularx}{\textwidth}{@{}p{0.19\textwidth}p{0.22\textwidth}X@{}}
+\toprule
+\begin{minipage}[b]{\linewidth}\raggedright
+Target
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Approximation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Representative models and distinguishing idea
+\end{minipage} \\
+\midrule
+\textbf{Scene structure or novel views (adjacent structural case)} & \(p_\theta(o_t^{(y)},g_t\mid o_t^{(c)},c_t)\), where \(c_t\) specifies a view & Atlas~\cite{ref21} generates camera-controlled views and explicit 3D output from multimodal scene context. This row captures its spatial tasks; the company also reports space-time simulation. Its public description is not a full methods paper. \\
+\textbf{World and actions jointly} & \(p_\theta(y_{t+1:t+H},a_{t:t+H-1}\mid h_t,\text{goal})\), with \(y\) visual or latent & DreamZero~\cite{ref22} adapts video diffusion for joint video/action prediction. \(\tau_0\)-WM~\cite{ref23} also simulates candidate actions and predicts task progress. LeWAM (Fu et al.)~\cite{ref24} combines next-latent prediction with action flow matching. \\
+\textbf{Textual state changes} & \(p_\theta(\Delta o_{t+1}^{(\mathrm{text})}\mid h_t,a_t)\), where \(\Delta o_{t+1}^{(\mathrm{text})}\) describes the change & WMA~\cite{ref25} predicts important browser-page changes in natural language after a proposed action. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+Genie 4~\cite{ref26} is publicly described as an interactive audiovisual simulator, but its exact learning objective is not disclosed in the cited announcement.
+
+\subsection{Modality: what the model receives and predicts}\label{modality-what-the-model-receives-and-predicts}
+
+Modality describes the form of the evidence and output, not the learned relation by itself. We record input and output separately: an image-conditioned model can predict geometry, and a language-conditioned model can predict video. A visual-token model still belongs in the observation target class when the tokens encode future frames.
+
+\begin{table*}[!t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.0}
+\caption{Input and output modalities}\label{tab:modalities}
+\begin{tabularx}{\textwidth}{@{}p{0.19\textwidth}p{0.22\textwidth}X@{}}
+\toprule
+\begin{minipage}[b]{\linewidth}\raggedright
+Modality or representation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Typical input → predicted outcome
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Illustrative cases
+\end{minipage} \\
+\midrule
+\textbf{Structured variables} & Measured state and actions → later state or reward & PETS~\cite{ref7}; Chreode~\cite{ref8} for cellular states and interventions. \\
+\textbf{Images and video} & Frames, sometimes actions or text → later frames or visual tokens & GameNGen~\cite{ref12}; GAIA-1~\cite{ref13}. \\
+\textbf{Learned visual features} & Images or video → future latent features & V-JEPA 2-AC~\cite{ref4}; LeWorldModel~\cite{ref16}. \\
+\textbf{Geometry and spatial data} & Point clouds or scene context → later geometry; same-time views belong to the adjacent structural class & 3D Point World Models~\cite{ref20}; Atlas~\cite{ref21} for the structural case. \\
+\textbf{Text and interface state} & Browser history and proposed action → textual description of a later change & WMA~\cite{ref25}. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\subsection{Application: where the predictive relation is used}\label{application-where-the-predictive-relation-is-used}
+
+Applications determine what counts as an intervention, a valid outcome, and a consequential error. \textbf{Generation} is a use of a predictive model, rather than a single observation modality or environment; it can occur in games, video, robotics, and driving. The table records current examples, not exclusive assignments.
+
+\begin{table*}[!t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.0}
+\caption{Applications and uses}\label{tab:applications}
+\begin{tabularx}{\textwidth}{@{}p{0.19\textwidth}p{0.22\textwidth}X@{}}
+\toprule
+\begin{minipage}[b]{\linewidth}\raggedright
+Application or use
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Representative predictive question
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Examples and evaluation emphasis
+\end{minipage} \\
+\midrule
+\textbf{Robotics and embodied control} & What state, image, or feature follows this action? & V-JEPA 2-AC~\cite{ref4}, DreamZero~\cite{ref22}; test action grounding, physical interaction, and task success. \\
+\textbf{Games and interactive simulation} & What happens after the player's or agent's next move? & MuZero~\cite{ref2}, DIAMOND~\cite{ref11}, GameNGen~\cite{ref12}; test rollout consistency and whether imagined play improves decisions. \\
+\textbf{Driving} & How will the scene evolve under an ego action or route? & GAIA-1~\cite{ref13}; test scene evolution, other-agent behavior, and safety-relevant outcomes. \\
+\textbf{Web and software interaction} & How will an interface change after a proposed action? & WMA~\cite{ref25}; test whether predicted page changes match executed actions. \\
+\textbf{Scientific and biological forecasting} & How does a measured system change under time or intervention? & Chreode~\cite{ref8}; test held-out transitions and interventions in the measured domain. \\
+\textbf{Video and environment generation} & Can the model generate a coherent future from context and controls? & Genie~\cite{ref10}, Cosmos-Predict2.5~\cite{ref14}; test temporal, control, and relevant physical consistency in addition to visual quality. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\section{Variations within target classes}\label{variations-within-target-classes}
+
+The predicted quantity is the primary axis, but methods with the same target can differ substantially. LeWM follow-ups illustrate five secondary axes: Fast-LeWM~\cite{ref17} changes the \textbf{prediction horizon} through action prefixes; ALeWM~\cite{ref27} changes \textbf{latent capacity}; AC-MTM~\cite{ref28} changes the \textbf{anti-collapse signal} through contrastive inverse dynamics; Traj-LeWM~\cite{ref29} changes the \textbf{planning criterion} by scoring the path; and LeWAM~\cite{ref24} adds \textbf{action generation}. A separate LeWAM paper~\cite{ref30} independently uses the same acronym for a related world-action architecture. These distinctions need not create new target classes.
+
+These examples do not all descend from LeWM. An independent LeWM reproduction~\cite{ref31} finds that preprocessing and evaluation choices materially change planning results, underscoring the need to report protocols alongside targets.
+
+\section{Synthesis}\label{synthesis}
+
+The distinction is \textbf{which future consequences a model is asked to preserve}. Observation prediction retains visual detail; feature prediction retains information selected by an encoder; decision-focused prediction retains information useful for reward and planning. These impose different accuracy tests. Our operational boundary requires a learned temporal prediction about the environment, while the evidence framework asks how far that prediction holds under longer horizons, changed conditions, and interventions. A cross-domain comparison should therefore report the target, conditioning, modality, application, and tested scope together before making a broader world-model claim.
+
+
+\clearpage
+\begin{thebibliography}{99}
+\bibitem{ref1} Ha and Schmidhuber's World Models. \url{https://arxiv.org/abs/1803.10122}.
+\bibitem{ref2} MuZero. \url{https://arxiv.org/abs/1911.08265}.
+\bibitem{ref3} DreamerV3. \url{https://arxiv.org/abs/2301.04104}.
+\bibitem{ref4} V-JEPA 2-AC. \url{https://arxiv.org/abs/2506.09985}.
+\bibitem{ref5} I-JEPA. \url{https://arxiv.org/abs/2301.08243}.
+\bibitem{ref6} WorldBench. \url{https://arxiv.org/abs/2601.21282}.
+\bibitem{ref7} PETS. \url{https://arxiv.org/abs/1805.12114}.
+\bibitem{ref8} Chreode. \url{https://arxiv.org/abs/2605.28111}.
+\bibitem{ref9} IRIS. \url{https://arxiv.org/abs/2209.00588}.
+\bibitem{ref10} Genie. \url{https://arxiv.org/abs/2402.15391}.
+\bibitem{ref11} DIAMOND. \url{https://arxiv.org/abs/2405.12399}.
+\bibitem{ref12} GameNGen. \url{https://arxiv.org/abs/2408.14837}.
+\bibitem{ref13} GAIA-1. \url{https://arxiv.org/abs/2309.17080}.
+\bibitem{ref14} Cosmos-Predict2.5. \url{https://arxiv.org/abs/2511.00062}.
+\bibitem{ref15} DINO-world. \url{https://arxiv.org/abs/2507.19468}.
+\bibitem{ref16} LeWorldModel. \url{https://arxiv.org/abs/2603.19312}.
+\bibitem{ref17} Fast-LeWM. \url{https://arxiv.org/abs/2606.26217}.
+\bibitem{ref18} MuZero. \url{https://www.nature.com/articles/s41586-020-03051-4}.
+\bibitem{ref19} TD-MPC2. \url{https://arxiv.org/html/2310.16828v2}.
+\bibitem{ref20} 3D Point World Models. \url{https://arxiv.org/abs/2607.00148}.
+\bibitem{ref21} Atlas. \url{https://www.worldlabs.ai/blog/atlas}.
+\bibitem{ref22} DreamZero. \url{https://arxiv.org/abs/2602.15922}.
+\bibitem{ref23} $\tau_0$-WM. \url{https://arxiv.org/abs/2606.01027}.
+\bibitem{ref24} LeWAM (Fu et al.). \url{https://arxiv.org/abs/2610.12818}.
+\bibitem{ref25} WMA. \url{https://arxiv.org/abs/2410.13232}.
+\bibitem{ref26} Genie 4. \url{https://deepmind.google/blog/genie-4-a-new-generation-of-world-simulation/}.
+\bibitem{ref27} ALeWM. \url{https://arxiv.org/abs/2609.32921}.
+\bibitem{ref28} AC-MTM. \url{https://arxiv.org/abs/2608.17542}.
+\bibitem{ref29} Traj-LeWM. \url{https://arxiv.org/abs/2608.14125}.
+\bibitem{ref30} LeWAM paper. \url{https://arxiv.org/abs/2610.12407}.
+\bibitem{ref31} independent LeWM reproduction. \url{https://arxiv.org/abs/2608.10145}.
+\end{thebibliography}
+\end{document}
