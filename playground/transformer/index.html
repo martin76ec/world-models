@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transformer Paper Playground</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: #0d1b2c;
+      --panel-2: #12233a;
+      --line: #28415f;
+      --text: #eaf2ff;
+      --muted: #9db3cf;
+      --accent: #6fc3ff;
+      --accent-2: #98f5c7;
+      --accent-3: #ffca7a;
+      --danger: #ff8d8d;
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+      --radius: 18px;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at top, rgba(111, 195, 255, 0.16), transparent 36%),
+        linear-gradient(180deg, #06101d 0%, #07111f 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    code, pre, .eq {
+      font-family: var(--mono);
+    }
+
+    .page {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 28px 0 72px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(17, 35, 58, 0.95), rgba(10, 22, 38, 0.96));
+      border: 1px solid rgba(111, 195, 255, 0.18);
+      border-radius: 28px;
+      padding: 34px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -120px -120px auto;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(152, 245, 199, 0.18), transparent 68%);
+      pointer-events: none;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 14px;
+      line-height: 1.15;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      max-width: 11ch;
+    }
+
+    h2 {
+      font-size: clamp(1.4rem, 2vw, 2rem);
+    }
+
+    h3 {
+      font-size: 1.05rem;
+    }
+
+    p {
+      margin: 0 0 14px;
+      color: var(--muted);
+    }
+
+    .hero-grid,
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero-grid { grid-template-columns: 1.3fr 0.9fr; margin-top: 24px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 0;
+    }
+
+    .chip,
+    .mini-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(111, 195, 255, 0.18);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.92rem;
+    }
+
+    .mini-chip {
+      font-size: 0.8rem;
+      padding: 6px 10px;
+    }
+
+    .section {
+      margin-top: 22px;
+      background: rgba(9, 18, 31, 0.82);
+      border: 1px solid rgba(111, 195, 255, 0.1);
+      border-radius: 24px;
+      padding: 26px;
+      box-shadow: var(--shadow);
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(18, 35, 58, 0.92), rgba(12, 24, 40, 0.92));
+      border: 1px solid rgba(111, 195, 255, 0.1);
+      border-radius: var(--radius);
+      padding: 18px;
+      min-height: 100%;
+    }
+
+    .eq-block {
+      background: rgba(5, 11, 20, 0.9);
+      border: 1px solid rgba(152, 245, 199, 0.15);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin: 14px 0;
+      overflow-x: auto;
+      color: var(--accent-2);
+    }
+
+    .note {
+      border-left: 3px solid var(--accent-3);
+      padding-left: 12px;
+      color: #d9e5f5;
+    }
+
+    .diagram {
+      width: 100%;
+      min-height: 360px;
+      border-radius: 20px;
+      background: radial-gradient(circle at top, rgba(111, 195, 255, 0.08), transparent 40%), rgba(4, 10, 18, 0.72);
+      border: 1px solid rgba(111, 195, 255, 0.1);
+      padding: 16px;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .stepper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .step-btn,
+    .tab-btn {
+      cursor: pointer;
+      border: 1px solid rgba(111, 195, 255, 0.16);
+      background: rgba(255, 255, 255, 0.035);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font: inherit;
+      transition: 0.18s ease;
+    }
+
+    .step-btn:hover,
+    .tab-btn:hover,
+    .step-btn.active,
+    .tab-btn.active {
+      background: rgba(111, 195, 255, 0.16);
+      border-color: rgba(111, 195, 255, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .step-panel,
+    .tab-panel {
+      display: none;
+    }
+
+    .step-panel.active,
+    .tab-panel.active {
+      display: block;
+    }
+
+    .matrix {
+      display: grid;
+      gap: 6px;
+      margin: 14px 0;
+    }
+
+    .matrix-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .cell {
+      padding: 10px 8px;
+      text-align: center;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-family: var(--mono);
+      color: var(--text);
+    }
+
+    .cell.score { background: rgba(111, 195, 255, 0.16); }
+    .cell.masked { background: rgba(255, 141, 141, 0.18); color: #ffd6d6; }
+    .cell.prob { background: rgba(152, 245, 199, 0.14); }
+    .cell.grad { background: rgba(255, 202, 122, 0.14); }
+
+    .attention-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.94rem;
+    }
+
+    .table th,
+    .table td {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table th {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .callout {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .small {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .footer {
+      margin-top: 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .grid-2,
+      .grid-3,
+      .attention-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        width: min(100vw - 20px, 1180px);
+      }
+
+      .hero,
+      .section {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <p class="mini-chip">Attention Is All You Need • 2017 • Encoder-Decoder Transformer</p>
+      <h1>Transformers From Signals To Gradients</h1>
+      <p>
+        This page teaches the original Transformer paper at implementation depth. It follows the full computation graph:
+        token embeddings, positional encodings, scaled dot-product attention, multi-head attention, residual paths, feed-forward layers,
+        masking, cross-entropy loss, and the backward pass through softmax and attention.
+      </p>
+      <div class="chip-row">
+        <span class="chip">Encoder stack: N = 6 layers</span>
+        <span class="chip">Decoder stack: N = 6 layers</span>
+        <span class="chip">d_model = 512</span>
+        <span class="chip">h = 8 heads</span>
+        <span class="chip">d_k = d_v = 64</span>
+        <span class="chip">d_ff = 2048</span>
+      </div>
+      <div class="hero-grid">
+        <div class="card">
+          <h2>Global View</h2>
+          <p>
+            The paper replaces recurrence with attention. Every encoder token can attend to every other encoder token.
+            Every decoder token can attend to earlier decoder tokens and to the full encoder output.
+            The resulting path length between distant positions becomes <code>O(1)</code> attention hops instead of <code>O(n)</code> recurrent steps.
+          </p>
+          <div class="eq-block">
+            <div class="eq">Attention(Q, K, V) = softmax((QK<sup>T</sup>) / √d<sub>k</sub>)V</div>
+            <div class="eq">MultiHead(Q, K, V) = Concat(head<sub>1</sub>, ..., head<sub>h</sub>)W<sup>O</sup></div>
+            <div class="eq">head<sub>i</sub> = Attention(QW<sub>i</sub><sup>Q</sup>, KW<sub>i</sub><sup>K</sup>, VW<sub>i</sub><sup>V</sup>)</div>
+          </div>
+          <p class="note">
+            The key idea is not just attention. It is the combination of parallel token processing, multi-head subspaces,
+            residual optimization, and explicit positional structure.
+          </p>
+        </div>
+        <div class="diagram">
+          <svg viewBox="0 0 520 380" aria-label="Transformer architecture diagram">
+            <defs>
+              <linearGradient id="boxBlue" x1="0" x2="1">
+                <stop offset="0%" stop-color="#18324f" />
+                <stop offset="100%" stop-color="#214668" />
+              </linearGradient>
+              <linearGradient id="boxGreen" x1="0" x2="1">
+                <stop offset="0%" stop-color="#19473d" />
+                <stop offset="100%" stop-color="#20695a" />
+              </linearGradient>
+              <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#9db3cf"></path>
+              </marker>
+            </defs>
+            <rect x="55" y="40" width="160" height="280" rx="20" fill="url(#boxBlue)" stroke="#6fc3ff" stroke-opacity="0.35" />
+            <rect x="305" y="40" width="160" height="280" rx="20" fill="url(#boxGreen)" stroke="#98f5c7" stroke-opacity="0.35" />
+            <text x="135" y="72" text-anchor="middle" fill="#eaf2ff" font-size="22">Encoder</text>
+            <text x="385" y="72" text-anchor="middle" fill="#eaf2ff" font-size="22">Decoder</text>
+
+            <rect x="82" y="100" width="105" height="42" rx="10" fill="#132235" stroke="#6fc3ff" stroke-opacity="0.3"/>
+            <text x="134" y="126" text-anchor="middle" fill="#eaf2ff" font-size="14">Self-Attention</text>
+            <rect x="82" y="158" width="105" height="42" rx="10" fill="#132235" stroke="#6fc3ff" stroke-opacity="0.3"/>
+            <text x="134" y="184" text-anchor="middle" fill="#eaf2ff" font-size="14">Add + Norm</text>
+            <rect x="82" y="216" width="105" height="42" rx="10" fill="#132235" stroke="#6fc3ff" stroke-opacity="0.3"/>
+            <text x="134" y="242" text-anchor="middle" fill="#eaf2ff" font-size="14">Feed Forward</text>
+            <rect x="82" y="274" width="105" height="42" rx="10" fill="#132235" stroke="#6fc3ff" stroke-opacity="0.3"/>
+            <text x="134" y="300" text-anchor="middle" fill="#eaf2ff" font-size="14">Add + Norm</text>
+
+            <rect x="332" y="92" width="105" height="36" rx="10" fill="#11241f" stroke="#98f5c7" stroke-opacity="0.3"/>
+            <text x="384" y="115" text-anchor="middle" fill="#eaf2ff" font-size="13">Masked Self-Attn</text>
+            <rect x="332" y="142" width="105" height="36" rx="10" fill="#11241f" stroke="#98f5c7" stroke-opacity="0.3"/>
+            <text x="384" y="165" text-anchor="middle" fill="#eaf2ff" font-size="13">Add + Norm</text>
+            <rect x="332" y="192" width="105" height="36" rx="10" fill="#11241f" stroke="#98f5c7" stroke-opacity="0.3"/>
+            <text x="384" y="215" text-anchor="middle" fill="#eaf2ff" font-size="13">Cross-Attention</text>
+            <rect x="332" y="242" width="105" height="36" rx="10" fill="#11241f" stroke="#98f5c7" stroke-opacity="0.3"/>
+            <text x="384" y="265" text-anchor="middle" fill="#eaf2ff" font-size="13">Add + Norm</text>
+            <rect x="332" y="292" width="105" height="36" rx="10" fill="#11241f" stroke="#98f5c7" stroke-opacity="0.3"/>
+            <text x="384" y="315" text-anchor="middle" fill="#eaf2ff" font-size="13">Feed Forward</text>
+
+            <path d="M186 121 H280 V210 H332" fill="none" stroke="#9db3cf" stroke-width="2.2" marker-end="url(#arrow)"/>
+            <text x="235" y="114" text-anchor="middle" fill="#9db3cf" font-size="12">Encoder memory</text>
+
+            <path d="M135 318 V344" fill="none" stroke="#9db3cf" stroke-width="2.2" marker-end="url(#arrow)"/>
+            <text x="135" y="364" text-anchor="middle" fill="#9db3cf" font-size="12">Contextual encodings</text>
+            <path d="M384 328 V344" fill="none" stroke="#9db3cf" stroke-width="2.2" marker-end="url(#arrow)"/>
+            <text x="384" y="364" text-anchor="middle" fill="#9db3cf" font-size="12">Token logits</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>1. Data Flow Through The Original Paper</h2>
+      <div class="stepper" data-tabs="pipeline">
+        <button class="step-btn active" data-target="pipe-1">1. Embed</button>
+        <button class="step-btn" data-target="pipe-2">2. Encode</button>
+        <button class="step-btn" data-target="pipe-3">3. Decode</button>
+        <button class="step-btn" data-target="pipe-4">4. Project</button>
+        <button class="step-btn" data-target="pipe-5">5. Train</button>
+      </div>
+
+      <div id="pipe-1" class="step-panel active">
+        <div class="grid-2">
+          <div class="card">
+            <h3>Token Embeddings</h3>
+            <p>Each source token <code>x_t</code> and target token <code>y_t</code> is mapped to a dense vector.</p>
+            <div class="eq-block">
+              <div class="eq">E ∈ ℝ<sup>|V| × d_model</sup></div>
+              <div class="eq">z_t = E[x_t] · √d_model</div>
+            </div>
+            <p>
+              The paper scales embeddings by <code>√d_model</code> so the embedding magnitude is compatible with the residual stream.
+              The output projection weights are tied with the embedding matrix in the paper's experiments.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Sinusoidal Positional Encoding</h3>
+            <p>Because attention is permutation-equivariant, the model needs explicit position signals.</p>
+            <div class="eq-block">
+              <div class="eq">PE(pos, 2i) = sin(pos / 10000<sup>2i / d_model</sup>)</div>
+              <div class="eq">PE(pos, 2i + 1) = cos(pos / 10000<sup>2i / d_model</sup>)</div>
+              <div class="eq">h_t<sup>(0)</sup> = z_t + PE_t</div>
+            </div>
+            <p>The sinusoid frequencies form a geometric ladder, making relative offsets linearly recoverable in principle.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="pipe-2" class="step-panel">
+        <div class="grid-2">
+          <div class="card">
+            <h3>Encoder Layer</h3>
+            <p>An encoder layer applies self-attention then a position-wise MLP, each wrapped by residual addition and normalization.</p>
+            <div class="eq-block">
+              <div class="eq">u = LayerNorm(x + MultiHead(x, x, x))</div>
+              <div class="eq">y = LayerNorm(u + FFN(u))</div>
+            </div>
+            <p>
+              In the original paper, normalization is post-residual. Many modern implementations use pre-norm for stability,
+              but the 2017 formulation is the one shown here.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Why Self-Attention Wins</h3>
+            <table class="table">
+              <thead>
+                <tr><th>Mechanism</th><th>Per-layer dependency path</th><th>Parallelism</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>RNN</td><td>O(n)</td><td>Low</td></tr>
+                <tr><td>CNN</td><td>O(log<sub>k</sub> n)</td><td>Medium</td></tr>
+                <tr><td>Self-attention</td><td>O(1)</td><td>High</td></tr>
+              </tbody>
+            </table>
+            <p class="small">The tradeoff is quadratic token-token interaction cost: <code>O(n² d_model)</code>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="pipe-3" class="step-panel">
+        <div class="grid-2">
+          <div class="card">
+            <h3>Decoder Layer</h3>
+            <p>The decoder has three sublayers instead of two.</p>
+            <div class="eq-block">
+              <div class="eq">u = LayerNorm(x + MaskedMultiHead(x, x, x))</div>
+              <div class="eq">v = LayerNorm(u + MultiHead(u, H_enc, H_enc))</div>
+              <div class="eq">y = LayerNorm(v + FFN(v))</div>
+            </div>
+            <p>Masked self-attention prevents information leakage from future target tokens during training.</p>
+          </div>
+          <div class="card">
+            <h3>Cross-Attention Semantics</h3>
+            <p>
+              In decoder cross-attention, queries come from the partial target sequence, while keys and values come from the encoder outputs.
+              This lets the decoder decide which source positions matter for the next target token.
+            </p>
+            <div class="eq-block">
+              <div class="eq">Q = U W<sup>Q</sup>, K = H_enc W<sup>K</sup>, V = H_enc W<sup>V</sup></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="pipe-4" class="step-panel">
+        <div class="grid-2">
+          <div class="card">
+            <h3>Output Projection</h3>
+            <p>The decoder output at each position is mapped to vocabulary logits.</p>
+            <div class="eq-block">
+              <div class="eq">o_t = h_t W<sup>O</sup><sub>vocab</sub> + b</div>
+              <div class="eq">p_t = softmax(o_t)</div>
+            </div>
+            <p>The highest-probability token is used at inference, but training compares the whole distribution against the target token.</p>
+          </div>
+          <div class="card">
+            <h3>Autoregressive Shift</h3>
+            <p>
+              Training uses teacher forcing: the decoder input is the gold target sequence shifted right with a begin token.
+              The model predicts the next token at every position in parallel.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="pipe-5" class="step-panel">
+        <div class="grid-2">
+          <div class="card">
+            <h3>Cross-Entropy Loss</h3>
+            <div class="eq-block">
+              <div class="eq">L = - Σ<sub>t</sub> log p_t(y_t)</div>
+            </div>
+            <p>The paper also uses label smoothing with ε<sub>ls</sub> = 0.1, which prevents overconfident distributions.</p>
+            <div class="eq-block">
+              <div class="eq">ỹ = (1 - ε) · one_hot(y) + ε / |V|</div>
+              <div class="eq">L = - Σ<sub>i</sub> ỹ_i log p_i</div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Optimization Details From The Paper</h3>
+            <table class="table">
+              <thead>
+                <tr><th>Component</th><th>Paper value</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Optimizer</td><td>Adam</td></tr>
+                <tr><td>β<sub>1</sub>, β<sub>2</sub>, ε</td><td>0.9, 0.98, 10<sup>-9</sup></td></tr>
+                <tr><td>Learning-rate rule</td><td>d_model<sup>-0.5</sup> · min(step<sup>-0.5</sup>, step · warmup<sup>-1.5</sup>)</td></tr>
+                <tr><td>Warmup steps</td><td>4000</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>2. Interactive Attention: One Head, Four Tokens</h2>
+      <p>
+        This example follows a single scaled dot-product attention head over four tokens. The numeric values are intentionally small so you can inspect the mechanics.
+      </p>
+      <div class="attention-grid">
+        <div class="card stack">
+          <div>
+            <h3>Q, K, V Setup</h3>
+            <p>For token 2, we compute one row of attention scores against all key positions.</p>
+            <div class="eq-block">
+              <div class="eq">q<sub>2</sub> = [1.0, 0.5]</div>
+              <div class="eq">k<sub>1..4</sub> = [[1.0, 0.0], [0.5, 1.0], [1.0, 1.0], [0.0, 1.0]]</div>
+              <div class="eq">v<sub>1..4</sub> = [[1.2, 0.1], [0.2, 1.0], [1.5, 1.2], [0.1, 0.7]]</div>
+            </div>
+            <div class="legend">
+              <span class="mini-chip">Blue = score space</span>
+              <span class="mini-chip">Red = masked</span>
+              <span class="mini-chip">Green = probability / weighted mix</span>
+            </div>
+          </div>
+          <div>
+            <label for="maskToggle" class="mini-chip">
+              <input id="maskToggle" type="checkbox" checked>
+              Apply causal mask
+            </label>
+            <label for="tempSlider" class="mini-chip">
+              Temperature-like scale
+              <input id="tempSlider" type="range" min="0.6" max="2" value="1" step="0.1">
+              <span id="tempValue">1.0</span>
+            </label>
+          </div>
+        </div>
+        <div class="card stack">
+          <div>
+            <h3>Live Computation</h3>
+            <div class="eq-block" id="attentionSummary"></div>
+          </div>
+          <div id="attentionMatrix"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>3. Multi-Head Attention As Learned Subspace Routing</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Linear Projections</h3>
+          <p>The model learns different query, key, and value projections per head.</p>
+          <div class="eq-block">
+            <div class="eq">Q<sub>i</sub> = XW<sub>i</sub><sup>Q</sup></div>
+            <div class="eq">K<sub>i</sub> = XW<sub>i</sub><sup>K</sup></div>
+            <div class="eq">V<sub>i</sub> = XW<sub>i</sub><sup>V</sup></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Independent Attention Maps</h3>
+          <p>
+            One head may learn syntactic dependencies, another long-range agreement, and another punctuation or positional structure.
+            The paper's insight is that forcing all structure into one attention map is a bottleneck.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Concatenate And Mix</h3>
+          <p>After each head emits <code>d_v</code>-dimensional outputs, the model concatenates them and mixes them through one output projection.</p>
+          <div class="eq-block">
+            <div class="eq">H = Concat(head<sub>1</sub>, ..., head<sub>h</sub>) ∈ ℝ<sup>n × hd_v</sup></div>
+            <div class="eq">Y = HW<sup>O</sup></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>4. Residual Stream, LayerNorm, And Position-Wise MLP</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Residual Paths</h3>
+          <p>The hidden state is a running information highway. Each sublayer proposes an update, and the residual path preserves the old representation.</p>
+          <div class="eq-block">
+            <div class="eq">r = x + Sublayer(x)</div>
+          </div>
+          <p>This helps gradient flow and stabilizes very deep networks.</p>
+        </div>
+        <div class="card">
+          <h3>Layer Normalization</h3>
+          <div class="eq-block">
+            <div class="eq">μ = (1 / d) Σ x_i</div>
+            <div class="eq">σ² = (1 / d) Σ (x_i - μ)²</div>
+            <div class="eq">LayerNorm(x)_i = γ_i (x_i - μ) / √(σ² + ε) + β_i</div>
+          </div>
+          <p>Normalization is applied independently per token vector across features, not across the batch.</p>
+        </div>
+      </div>
+      <div class="card" style="margin-top:18px;">
+        <h3>Position-Wise Feed-Forward Network</h3>
+        <p>
+          The same MLP is applied to every sequence position independently. This is where the model performs non-linear channel mixing after the token mixing performed by attention.
+        </p>
+        <div class="eq-block">
+          <div class="eq">FFN(x) = max(0, xW<sub>1</sub> + b<sub>1</sub>)W<sub>2</sub> + b<sub>2</sub></div>
+        </div>
+        <p class="small">The paper uses ReLU here. Many modern descendants switch to GELU or gated variants.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>5. Step-By-Step Backpropagation And Loss Gradients</h2>
+      <div class="stepper" data-tabs="grads">
+        <button class="tab-btn active" data-target="grad-1">Logits → Softmax</button>
+        <button class="tab-btn" data-target="grad-2">Softmax → Attention Scores</button>
+        <button class="tab-btn" data-target="grad-3">Scores → Q/K</button>
+        <button class="tab-btn" data-target="grad-4">Attention → V</button>
+        <button class="tab-btn" data-target="grad-5">Residual Paths</button>
+      </div>
+
+      <div id="grad-1" class="tab-panel active">
+        <div class="grid-2">
+          <div class="card">
+            <h3>Cross-Entropy With Softmax</h3>
+            <div class="eq-block">
+              <div class="eq">p_i = exp(o_i) / Σ_j exp(o_j)</div>
+              <div class="eq">L = - Σ_i y_i log p_i</div>
+              <div class="eq">∂L / ∂o_i = p_i - y_i</div>
+            </div>
+            <p>
+              This is one of the most important identities in deep learning. The gradient on the logits is simply predicted probability minus target probability.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Interpretation</h3>
+            <p>
+              If the correct token has low probability, its logit receives a large negative gradient, pushing it upward after the optimizer step.
+              Incorrect high-probability tokens receive positive gradients, pushing them downward.
+            </p>
+            <div class="eq-block">
+              <div class="eq">o = [1.7, 0.2, -0.4], y = [1, 0, 0]</div>
+              <div class="eq">p ≈ [0.72, 0.16, 0.12]</div>
+              <div class="eq">∂L / ∂o ≈ [-0.28, 0.16, 0.12]</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="grad-2" class="tab-panel">
+        <div class="grid-2">
+          <div class="card">
+            <h3>Attention Probabilities</h3>
+            <div class="eq-block">
+              <div class="eq">A = softmax(S)</div>
+              <div class="eq">O = AV</div>
+            </div>
+            <p>Suppose the loss gradient reaching the head output is <code>G = ∂L / ∂O</code>.</p>
+            <div class="eq-block">
+              <div class="eq">∂L / ∂A = G V<sup>T</sup></div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Softmax Jacobian</h3>
+            <p>For one attention row <code>a = softmax(s)</code>, the Jacobian is:</p>
+            <div class="eq-block">
+              <div class="eq">J<sub>softmax</sub>(s) = diag(a) - aa<sup>T</sup></div>
+              <div class="eq">∂L / ∂s = J<sub>softmax</sub>(s) (∂L / ∂a)</div>
+            </div>
+            <p>
+              This means increasing one probability must reduce others because each row sums to one.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="grad-3" class="tab-panel">
+        <div class="grid-2">
+          <div class="card">
+            <h3>Scaled Scores</h3>
+            <div class="eq-block">
+              <div class="eq">S = QK<sup>T</sup> / √d<sub>k</sub></div>
+            </div>
+            <p>Let <code>G<sub>S</sub> = ∂L / ∂S</code>. Then:</p>
+            <div class="eq-block">
+              <div class="eq">∂L / ∂Q = G<sub>S</sub> K / √d<sub>k</sub></div>
+              <div class="eq">∂L / ∂K = G<sub>S</sub><sup>T</sup> Q / √d<sub>k</sub></div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Why The Scale Matters</h3>
+            <p>
+              Without division by <code>√d_k</code>, the dot products grow with dimensionality, softmax saturates, and gradients collapse toward zero because the probability distribution becomes too sharp.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="grad-4" class="tab-panel">
+        <div class="grid-2">
+          <div class="card">
+            <h3>Gradient To Values</h3>
+            <div class="eq-block">
+              <div class="eq">O = AV</div>
+              <div class="eq">∂L / ∂V = A<sup>T</sup> G</div>
+            </div>
+            <p>
+              Intuitively, if a value vector was heavily attended by many queries, it accumulates a larger share of gradient.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Back Through Projections</h3>
+            <div class="eq-block">
+              <div class="eq">Q = XW<sup>Q</sup>, K = XW<sup>K</sup>, V = XW<sup>V</sup></div>
+              <div class="eq">∂L / ∂W<sup>Q</sup> = X<sup>T</sup>(∂L / ∂Q)</div>
+              <div class="eq">∂L / ∂X += (∂L / ∂Q)W<sup>Q,T</sup></div>
+            </div>
+            <p>The same pattern applies to <code>W^K</code> and <code>W^V</code>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="grad-5" class="tab-panel">
+        <div class="grid-2">
+          <div class="card">
+            <h3>Residual Gradient Splitting</h3>
+            <p>For <code>r = x + f(x)</code>, the incoming gradient is copied into two paths.</p>
+            <div class="eq-block">
+              <div class="eq">∂L / ∂x = ∂L / ∂r + (∂L / ∂r)(∂f / ∂x)</div>
+            </div>
+            <p>
+              This direct identity path is one reason residual networks optimize far better than plain deep stacks.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Gradient Story For One Decoder Token</h3>
+            <p>
+              The loss at one target position sends signal backward into the output projection, decoder feed-forward, decoder self-attention,
+              decoder cross-attention, and then into whichever encoder states influenced that prediction. The full model is trained by this dense web of routing decisions.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>6. Tensor Shapes Through The Network</h2>
+      <div class="card">
+        <table class="table">
+          <thead>
+            <tr><th>Stage</th><th>Shape</th><th>Meaning</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Input ids</td><td>(B, T)</td><td>Batch of token indices</td></tr>
+            <tr><td>Embeddings</td><td>(B, T, d_model)</td><td>Dense token vectors</td></tr>
+            <tr><td>Q, K, V before split</td><td>(B, T, d_model)</td><td>Projected hidden states</td></tr>
+            <tr><td>Q, K, V after split</td><td>(B, h, T, d_k)</td><td>Per-head views</td></tr>
+            <tr><td>Attention scores</td><td>(B, h, T, T)</td><td>All query-key pair scores</td></tr>
+            <tr><td>Attention output</td><td>(B, h, T, d_v)</td><td>Per-head weighted values</td></tr>
+            <tr><td>Concat heads</td><td>(B, T, h·d_v)</td><td>Head outputs merged</td></tr>
+            <tr><td>Final hidden states</td><td>(B, T, d_model)</td><td>Residual stream after stacked layers</td></tr>
+            <tr><td>Vocabulary logits</td><td>(B, T, |V|)</td><td>Token distribution parameters</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>7. Original Paper vs Modern Variants</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Original Paper</h3>
+          <p>Encoder-decoder, sinusoidal positions, post-norm, ReLU FFN, machine translation target.</p>
+        </div>
+        <div class="card">
+          <h3>GPT-Style Decoder</h3>
+          <p>Decoder-only, causal mask only, often learned positions, pre-norm, next-token language modeling.</p>
+        </div>
+        <div class="card">
+          <h3>BERT-Style Encoder</h3>
+          <p>Encoder-only, bidirectional masking during pretraining, masked language modeling instead of autoregressive decoding.</p>
+        </div>
+      </div>
+      <p class="note" style="margin-top:16px;">
+        If you inspect the local Python implementation in this playground, you will notice it is a decoder-only causal Transformer, which is closer to GPT than to the original full encoder-decoder paper.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>8. Mental Model</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Forward Pass Intuition</h3>
+          <p>
+            Every layer alternates between token mixing and channel mixing. Attention decides who talks to whom. The feed-forward network decides how each token transforms its internal features.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Backward Pass Intuition</h3>
+          <p>
+            Gradients ask: which logits were wrong, which hidden features caused those logits, which attention paths exposed those features, and which query/key/value projections made those paths probable?
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer">
+      Built as a self-contained visual note inside <code>playground/transformer/</code>. Open this file in a browser to explore the diagrams and interactive attention example.
+    </p>
+  </main>
+
+  <script>
+    const groups = document.querySelectorAll('[data-tabs]');
+    groups.forEach((group) => {
+      const buttons = group.querySelectorAll('button');
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const parent = group.parentElement;
+          const target = button.dataset.target;
+          buttons.forEach((btn) => btn.classList.toggle('active', btn === button));
+          parent.querySelectorAll('.step-panel, .tab-panel').forEach((panel) => {
+            panel.classList.toggle('active', panel.id === target);
+          });
+        });
+      });
+    });
+
+    const q = [1.0, 0.5];
+    const keys = [
+      [1.0, 0.0],
+      [0.5, 1.0],
+      [1.0, 1.0],
+      [0.0, 1.0],
+    ];
+    const values = [
+      [1.2, 0.1],
+      [0.2, 1.0],
+      [1.5, 1.2],
+      [0.1, 0.7],
+    ];
+    const tokenIndex = 1;
+    const maskToggle = document.getElementById('maskToggle');
+    const tempSlider = document.getElementById('tempSlider');
+    const tempValue = document.getElementById('tempValue');
+    const attentionSummary = document.getElementById('attentionSummary');
+    const attentionMatrix = document.getElementById('attentionMatrix');
+
+    function softmax(xs) {
+      const max = Math.max(...xs);
+      const exps = xs.map((x) => Math.exp(x - max));
+      const sum = exps.reduce((a, b) => a + b, 0);
+      return exps.map((x) => x / sum);
+    }
+
+    function dot(a, b) {
+      return a.reduce((sum, x, i) => sum + x * b[i], 0);
+    }
+
+    function renderAttention() {
+      const scale = Number(tempSlider.value);
+      const causal = maskToggle.checked;
+      tempValue.textContent = scale.toFixed(1);
+
+      const dk = q.length;
+      const rawScores = keys.map((k) => dot(q, k) / Math.sqrt(dk) / scale);
+      const maskedScores = rawScores.map((score, idx) => {
+        if (!causal) return score;
+        return idx > tokenIndex ? Number.NEGATIVE_INFINITY : score;
+      });
+      const visibleScores = maskedScores.map((score) => Number.isFinite(score) ? score : -1e9);
+      const probs = softmax(visibleScores);
+      const mixed = [0, 0];
+      probs.forEach((p, i) => {
+        mixed[0] += p * values[i][0];
+        mixed[1] += p * values[i][1];
+      });
+
+      attentionSummary.innerHTML = [
+        '<div class="eq">s = (qK<sup>T</sup>) / √d<sub>k</sub></div>',
+        `<div class="eq">raw scores = [${rawScores.map((x) => x.toFixed(3)).join(', ')}]</div>`,
+        `<div class="eq">attention probs = [${probs.map((x) => x.toFixed(3)).join(', ')}]</div>`,
+        `<div class="eq">output = Σ a<sub>i</sub>v<sub>i</sub> = [${mixed.map((x) => x.toFixed(3)).join(', ')}]</div>`
+      ].join('');
+
+      const scoreCells = maskedScores.map((score, idx) => {
+        const cls = Number.isFinite(score) ? 'cell score' : 'cell masked';
+        const text = Number.isFinite(score) ? score.toFixed(3) : '-inf';
+        return `<div class="${cls}">k${idx + 1}<br>${text}</div>`;
+      }).join('');
+
+      const probCells = probs.map((prob, idx) => {
+        return `<div class="cell prob">a${idx + 1}<br>${prob.toFixed(3)}</div>`;
+      }).join('');
+
+      const valueCells = values.map((value, idx) => {
+        return `<div class="cell">v${idx + 1}<br>[${value.map((x) => x.toFixed(1)).join(', ')}]</div>`;
+      }).join('');
+
+      const gradToScores = probs.map((prob, idx) => {
+        const targetBoost = idx === tokenIndex ? -0.6 : 0.2;
+        return (prob + targetBoost).toFixed(3);
+      }).join(', ');
+
+      attentionMatrix.innerHTML = `
+        <div class="stack">
+          <div>
+            <h3>Scaled scores for query token 2</h3>
+            <div class="matrix"><div class="matrix-row">${scoreCells}</div></div>
+          </div>
+          <div>
+            <h3>Softmax distribution</h3>
+            <div class="matrix"><div class="matrix-row">${probCells}</div></div>
+          </div>
+          <div>
+            <h3>Value vectors</h3>
+            <div class="matrix"><div class="matrix-row">${valueCells}</div></div>
+          </div>
+          <div class="callout">
+            <strong>Backward-pass intuition</strong>
+            <p class="small" style="margin-top:8px;">
+              If the downstream loss wants token 2 to focus more on earlier evidence, the gradient on the attention row perturbs the score vector.
+              A toy example of <code>∂L/∂s</code> could look like:
+            </p>
+            <div class="matrix"><div class="matrix-row">
+              ${gradToScores.split(', ').map((g) => `<div class="cell grad">${g}</div>`).join('')}
+            </div></div>
+          </div>
+        </div>
+      `;
+    }
+
+    maskToggle.addEventListener('change', renderAttention);
+    tempSlider.addEventListener('input', renderAttention);
+    renderAttention();
+  </script>
+</body>
+</html>

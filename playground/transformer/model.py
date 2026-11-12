@@ -90,14 +90,14 @@ class Transformer(nn.Module):
     ):
         super().__init__()
         self.d_model = d_model
-        self.tok_emb = nn.Embedding(vocab_size, d_model)
-        self.pos_emb = nn.Embedding(max_seq_len, d_model)
-        self.dropout = nn.Dropout(dropout)
+        self.tok_emb = nn.Embedding(vocab_size, d_model) # -> tokenization
+        self.pos_emb = nn.Embedding(max_seq_len, d_model) # -> positional embedding
+        self.dropout = nn.Dropout(dropout) # -> wtf???
         self.blocks = nn.ModuleList(
             [TransformerBlock(d_model, n_heads, d_ff, dropout) for _ in range(n_layers)]
         )
-        self.ln_f = nn.LayerNorm(d_model)
-        self.head = nn.Linear(d_model, vocab_size, bias=False)
+        self.ln_f = nn.LayerNorm(d_model) # --> WHY???
+        self.head = nn.Linear(d_model, vocab_size, bias=False) # --> wtf ????
 
         self._init_weights()
 
